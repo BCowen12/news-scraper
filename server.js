@@ -1,13 +1,14 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsScraper";
 
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 var app = express();
 
@@ -16,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/newsScraper", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
 
 app.get("/scrape", function (req, res) {
     axios.get("https://www.newyorker.com/magazine/fiction").then(function (response) {

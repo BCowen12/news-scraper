@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/newsScraper", { useNewUrlParser: true });
 
 app.get("/scrape", function (req, res) {
     axios.get("https://www.newyorker.com/magazine/fiction").then(function (response) {
@@ -114,8 +114,9 @@ app.get("/saved", function (req, res) {
         });
 });
 
-app.post("/delete/:id", function(req, res) {
-    db.note.remove({ _id: mongojs.ObjectID(req.params.id) })
+app.get("/delete/:id", function(req, res) {
+    console.log(req.params.id);
+    db.Note.remove({ _id: mongojs.ObjectID(req.params.id) })
       .then(function(dbArticle) {
        res.json(dbArticle);
       })
